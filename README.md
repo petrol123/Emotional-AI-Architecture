@@ -17,4 +17,4 @@ This project is dual-licensed under:
 
 See LICENSE.md for details.
 # SECE-EME-EmpathyTradeoff
-short summary of the project
+The release is intended for researchers, theorists, designers, and collaborative partners interested in the intersection of emotion, context, ethics, and artificial cognition. This document serves as a safe starting point for academic citation, public dissemination, and future scholarly expansion while maintaining the confidentiality of technical components still under development.
