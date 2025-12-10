@@ -1,0 +1,94 @@
+python # emotional_weight_engine.py 
+import time 
+import math 
+import random 
+# Emotional Signal Class 
+class EmotionalSignal: 
+def __init__(self, name, intensity, clarity, relevance, timestamp=None): 
+self.name = name 
+self.intensity = intensity 
+self.clarity = clarity 
+self.relevance = relevance 
+self.timestamp = timestamp or time.time() 
+def weighted_value(self): 
+return self.intensity * self.clarity * self.relevance 
+def decay(self, half_life=60.0): 
+elapsed = time.time() - self.timestamp 
+decay_factor = 0.5 ** (elapsed / half_life) 
+self.intensity *= decay_factor 
+# Emotional State Tracker 
+class EmotionalState: 
+def __init__(self): 
+self.signals = [] 
+def add_signal(self, signal): 
+self.signals.append(signal) 
+def apply_decay(self, half_life=60.0): 
+for signal in self.signals: 
+signal.decay(half_life) 
+def compute_state(self): 
+state = {} 
+for signal in self.signals: 
+weighted = signal.weighted_value() 
+state[signal.name] = state.get(signal.name, 0.0) + weighted 
+return state 
+def display_state(self): 
+self.apply_decay() 
+print(" Emotional Feedback Loop:") 
+for name, value in self.compute_state().items(): 
+print(f" {name}: {value:.3f}") 
+# Resonance Scoring Module 
+class ResonanceScorer: 
+def __init__(self, signals): 
+self.signals = signals 
+def compute_score(self): 
+if not self.signals: 
+return 0.0 
+clarity_values = [s.clarity for s in self.signals] 
+relevance_values = [s.relevance for s in self.signals] 
+clarity_consistency = 1.0 - self._variance(clarity_values) 
+relevance_consistency = 1.0 - self._variance(relevance_values) 
+harmony = self._signal_harmony() 
+score = (clarity_consistency + relevance_consistency + harmony) / 3.0 
+return round(score, 3) 
+def _variance(self, values): 
+mean = sum(values) / len(values) 
+return sum((v - mean) ** 2 for v in values) / len(values) 
+def _signal_harmony(self): 
+unique_names = set(s.name for s in self.signals) 
+diversity_penalty = len(unique_names) / max(1, len(self.signals)) 
+return 1.0 - diversity_penalty 
+# Emotional Engine Simulation Loop 
+class EmotionalEngine: 
+def __init__(self, half_life=60.0): 
+self.state = EmotionalState() 
+self.resonance_history = [] 
+self.half_life = half_life 
+def inject_signal(self, name, intensity, clarity, relevance): 
+signal = EmotionalSignal(name, intensity, clarity, relevance) 
+self.state.add_signal(signal) 
+def step(self): 
+self.state.apply_decay(self.half_life) 
+self.state.display_state() 
+scorer = ResonanceScorer(self.state.signals) 
+score = scorer.compute_score() 
+self.resonance_history.append(score) 
+print(f" Resonance Score: {score}\n") 
+def run_simulation(self, steps=5, delay=5): 
+for i in range(steps): 
+print(f" Simulation Step {i+1}") 
+self.step() 
+time.sleep(delay) 
+# Optional: Visualization (commented for later use) 
+# import matplotlib.pyplot as plt 
+# def plot_dashboard(state_dict, resonance_scores): 
+# ... 
+# Example Usage 
+if __name__ == "__main__": 
+engine = EmotionalEngine() 
+# Inject sample signals 
+engine.inject_signal("joy", 0.9, 0.8, 0.7) 
+engine.inject_signal("curiosity", 0.6, 0.9, 0.8) 
+engine.inject_signal("fear", 0.5, 0.7, 0.6) 
+# Run simulation 
+engine.run_simulation(steps=5, delay=3) 
+
