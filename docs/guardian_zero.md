@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="./style.css">
+
+<nav>
+  <a href="./index.html">Home</a>
+  <a href="./overview.html">Overview</a>
+  <a href="./timeline.html">Timeline</a>
+  <a href="./eme.html">EME</a>
+  <a href="./sece.html">SECE</a>
+  <a href="./baseline.html">Baseline</a>
+  <a href="./guardian_zero.html">Guardian Zero</a>
+  <a href="./research_notes.html">Notes</a>
+</nav>
+
+<div class="main-content">
+
 # Guardian Zero Protocol
 
 The Guardian Zero Protocol is a stability‑focused framework within Continuous Analog Awareness (CAA).  
@@ -113,4 +128,5 @@ Guardian Zero helps ensure that CAA behaves as a unified, analog‑inspired syst
 - [SECE Engine](./sece.md)  
 - [Baseline Stability](./baseline.md)  
 - [Research Notes](./research_notes.md)
+- </div>
 
