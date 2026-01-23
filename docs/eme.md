@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="./style.css">
+
+<nav>
+  <a href="./index.html">Home</a>
+  <a href="./overview.html">Overview</a>
+  <a href="./timeline.html">Timeline</a>
+  <a href="./eme.html">EME</a>
+  <a href="./sece.html">SECE</a>
+  <a href="./baseline.html">Baseline</a>
+  <a href="./guardian_zero.html">Guardian Zero</a>
+  <a href="./research_notes.html">Notes</a>
+</nav>
+
+<div class="main-content">
+
 # Engine for Multimodal Evolution (EME)
 
 The **Engine for Multimodal Evolution (EME)** is the integration layer within Continuous Analog Awareness (CAA) responsible for combining multiple sensory and internal signals into a unified, coherent perception field.  
@@ -71,3 +86,4 @@ This reduces latency and supports smoother transitions.
 
 ### **Coherence Over Precision**
 The system priorit
+</div>
