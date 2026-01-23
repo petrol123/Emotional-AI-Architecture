@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="./style.css">
+
+<nav>
+  <a href="./index.html">Home</a>
+  <a href="./overview.html">Overview</a>
+  <a href="./timeline.html">Timeline</a>
+  <a href="./eme.html">EME</a>
+  <a href="./sece.html">SECE</a>
+  <a href="./baseline.html">Baseline</a>
+  <a href="./guardian_zero.html">Guardian Zero</a>
+  <a href="./research_notes.html">Notes</a>
+</nav>
+
+<div class="main-content">
+
 # Research Notes
 
 This section collects high‑level conceptual notes, safe summaries, and ongoing observations related to the development of Continuous Analog Awareness (CAA).  
@@ -112,4 +127,5 @@ Technical implementation details, proprietary algorithms, and sensitive research
 - [SECE Engine](./sece.md)  
 - [Baseline Stability](./baseline.md)  
 - [Guardian Zero Protocol](./guardian_zero.md)
+- </div>
 
