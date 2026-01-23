@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="./style.css">
+
+<nav>
+  <a href="./index.html">Home</a>
+  <a href="./overview.html">Overview</a>
+  <a href="./timeline.html">Timeline</a>
+  <a href="./eme.html">EME</a>
+  <a href="./sece.html">SECE</a>
+  <a href="./baseline.html">Baseline</a>
+  <a href="./guardian_zero.html">Guardian Zero</a>
+  <a href="./research_notes.html">Notes</a>
+</nav>
+
+<div class="main-content">
+
 # Baseline Stability and Analog Continuity
 
 Baseline stability is a foundational concept within Continuous Analog Awareness (CAA).  
@@ -61,3 +76,5 @@ Baseline stability and resonance modeling work together to maintain coherence.
 ---
 
 ## Interaction With Other Components
+</div>
+
