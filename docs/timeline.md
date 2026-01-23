@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./style.css">
+
 <nav>
   <a href="./index.html">Home</a>
   <a href="./overview.html">Overview</a>
