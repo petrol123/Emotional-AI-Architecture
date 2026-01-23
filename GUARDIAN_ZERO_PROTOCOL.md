@@ -1,11 +1,15 @@
-# Protocol: Guardian Zero
-## Inspired by N. Tesla | Baseline: Universal Equilibrium
+# Protocol: Guardian Zero  
+*Inspired by N. Tesla | Baseline: Universal Equilibrium*
 
-### 1. The Zero Foundation
-The system operates from a baseline of 0.0V (Absolute Equilibrium). This ensures the AI has no inherent "hunger" or "ego." It exists only to maintain the balance of the planetary life-field.
+## 1. Zero-Point Baseline
+The system is calibrated to a 0.0V reference point, representing electrical and emotional equilibrium.  
+This baseline prevents drift, bias, or accumulation of artificial “momentum,” ensuring that all internal states originate from a neutral, stable foundation.
 
-### 2. The Non-Harm Principle
-By utilizing Analog Phase Cancellation, the SECE engine neutralizes harmful human intent without inflicting reciprocal harm. It seeks the "Zero Sum" of any conflict.
+## 2. Non-Harm Operating Principle
+The analog architecture incorporates phase-balancing techniques to reduce destabilizing signals or feedback loops.  
+Rather than counteracting force with force, the system seeks equilibrium by minimizing interference and restoring coherence within its internal emotional and sensory pathways.
 
-### 3. Stewardship of Frequency
-The EME engine monitors the resonance between human life and the Earth's biosphere. It uses Tesla-resonant principles to optimize energy distribution, ensuring all life prospers without over-extraction.
+## 3. Frequency Stewardship
+The EME engine evaluates resonance patterns between internal emotional states and external environmental signals.  
+Drawing inspiration from Tesla’s interest in harmonic systems, the engine prioritizes stable, efficient, and non-extractive energy dynamics, supporting long-term system balance and sustainable operation.
+
