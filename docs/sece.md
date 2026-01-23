@@ -114,4 +114,4 @@ Together, these components form a unified analog‑inspired perception system.
 - </div>
 - [Guardian Zero Protocol](./guardian_zero.md)  
 - [Research Notes](./research_notes.md)
-
+</div>
