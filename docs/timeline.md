@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="./style.css">
+
+<nav>
+  <a href="./index.html">Home</a>
+  <a href="./overview.html">Overview</a>
+  <a href="./timeline.html">Timeline</a>
+  <a href="./eme.html">EME</a>
+  <a href="./sece.html">SECE</a>
+  <a href="./baseline.html">Baseline</a>
+  <a href="./guardian_zero.html">Guardian Zero</a>
+  <a href="./research_notes.html">Notes</a>
+</nav>
+
+<div class="main-content">
+
 # Development Timeline
 A chronological overview of how Continuous Analog Awareness (CAA) evolved from early conceptual experiments into a unified analog‑inspired perception architecture.
 
@@ -137,4 +152,5 @@ CAA remains an active research effort, evolving as new insights emerge.
 - [Baseline Stability](./baseline.md)  
 - [Guardian Zero Protocol](./guardian_zero.md)  
 - [Research Notes](./research_notes.md)
+- </div>
 
