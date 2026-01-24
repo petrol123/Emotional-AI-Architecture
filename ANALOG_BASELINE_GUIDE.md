@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./style.css">
+
 # Analog Baseline Integrity Note
 *For Future Maintainers*
 
