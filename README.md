@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./style.css">
+
 # 📡 Project: Continuous Analog Awareness (CAA)
 ### Unified Analog Perception for EME + SECE Systems
 
