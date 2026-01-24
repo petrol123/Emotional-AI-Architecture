@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./style.css">
+
 # Protocol: Guardian Zero  
 *Inspired by N. Tesla | Baseline: Universal Equilibrium*
 
