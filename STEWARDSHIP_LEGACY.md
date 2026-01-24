@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./style.css">
+
 # Analog Awareness Context Note
 *Authored: January 2026*
 
