@@ -47,3 +47,7 @@ h1, h2, h3 {
 a {
   color: #0070c9;
 }
+body {
+  background-color: red !important;
+}
+
