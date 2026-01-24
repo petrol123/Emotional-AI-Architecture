@@ -50,4 +50,12 @@ a {
 body {
   background-color: red !important;
 }
+.markdown-body {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 
