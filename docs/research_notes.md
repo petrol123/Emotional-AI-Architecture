@@ -1,3 +1,6 @@
+---
+layout: default
+---
 <link rel="stylesheet" href="./style.css">
 
 <nav>
@@ -10,6 +13,8 @@
   <a href="./guardian_zero.html">Guardian Zero</a>
   <a href="./research_notes.html">Notes</a>
 </nav>
+
+<div class="main-content">
 
 <div class="main-content">
 
