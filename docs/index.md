@@ -1,18 +1,13 @@
 <link rel="stylesheet" href="./style.css">
-
-# Project: Continuous Analog Awareness (CAA)
-
----
-
-<nav style="margin-bottom: 2rem;">
+<nav>
   <a href="./index.html">Home</a> |
   <a href="./overview.html">Overview</a> |
   <a href="./timeline.html">Timeline</a> |
-  <a href="./eme.html">EME Engine</a> |
-  <a href="./sece.html">SECE Engine</a> |
-  <a href="./baseline.html">Baseline Stability</a> |
+  <a href="./eme.html">EME</a> |
+  <a href="./sece.html">SECE</a> |
+  <a href="./baseline.html">Baseline</a> |
   <a href="./guardian_zero.html">Guardian Zero</a> |
-  <a href="./research_notes.html">Research Notes</a>
+  <a href="./research_notes.html">Notes</a>
 </nav>
 
 ---
