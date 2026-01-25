@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="./style.css">
 
 <nav>
-  <a href="./index.html">Home</a>
-  <a href="./overview.html">Overview</a>
-  <a href="./timeline.html">Timeline</a>
-  <a href="./eme.html">EME</a>
-  <a href="./sece.html">SECE</a>
-  <a href="./baseline.html">Baseline</a>
-  <a href="./guardian_zero.html">Guardian Zero</a>
-  <a href="./research_notes.html">Notes</a>
+  <a href="./index.md">Home</a>
+  <a href="./overview.md">Overview</a>
+  <a href="./timeline.md">Timeline</a>
+  <a href="./eme.md">EME</a>
+  <a href="./sece.md">SECE</a>
+  <a href="./baseline.md">Baseline</a>
+  <a href="./guardian_zero.md">Guardian Zero</a>
+  <a href="./research_notes.md">Notes</a>
 </nav>
 
 <div class="main-content">
