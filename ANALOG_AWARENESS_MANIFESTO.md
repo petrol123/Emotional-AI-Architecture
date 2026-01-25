@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="./style.css">
 
 # Manifesto: Continuous Analog Awareness (CAA) 
 ## Shifting from Digital Sampling to Unified Perception
