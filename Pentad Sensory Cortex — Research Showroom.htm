@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pentad Sensory Cortex — Research Showroom</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { background-color: #0b1220; }
+
+.block {
+    transition: all 0.3s ease;
+}
+.block:hover {
+    background-color: #164e63;
+    transform: translateY(-4px);
+}
+
+.active-block {
+    background-color: #155e75 !important;
+}
+
+canvas {
+    border-radius: 8px;
+}
+</style>
+</head>
+
+<body class="text-slate-200 font-sans">
+
+<div class="max-w-7xl mx-auto px-6 py-12">
+
+<!-- HERO -->
+<section class="mb-20">
+<h1 class="text-4xl md:text-5xl font-bold text-cyan-400 mb-6">
+Pentad Sensory Cortex
+</h1>
+<p class="text-slate-400 max-w-3xl text-lg leading-relaxed">
+A five-channel bio-signal front-end for real-time affective state inference.
+Designed for signal integrity, hardware safety interrupts, and modular neuromorphic integration.
+</p>
+</section>
+
+<!-- ARCHITECTURE DIAGRAM -->
+<section class="mb-20">
+<h2 class="text-2xl font-semibold text-cyan-300 mb-8">
+System Architecture
+</h2>
+
+<div class="grid md:grid-cols-6 gap-6 text-center">
+
+<div onclick="describe('sensor')" class="block bg-slate-800 p-6 rounded-lg cursor-pointer">
+Sensors
+</div>
+
+<div onclick="describe('conditioning')" class="block bg-slate-800 p-6 rounded-lg cursor-pointer">
+Protection + Bias
+</div>
+
+<div onclick="describe('amp')" class="block bg-slate-800 p-6 rounded-lg cursor-pointer">
+Differential Amp
+</div>
+
+<div onclick="describe('filter')" class="block bg-slate-800 p-6 rounded-lg cursor-pointer">
+Low-Pass Filter
+</div>
+
+<div onclick="describe('clamp')" class="block bg-slate-800 p-6 rounded-lg cursor-pointer">
+3.3V Clamp
+</div>
+
+<div onclick="describe('adc')" class="block bg-cyan-700 p-6 rounded-lg cursor-pointer">
+Arduino ADC
+</div>
+
+</div>
+
+<p id="archDescription" class="mt-6 text-slate-400 max-w-3xl">
+Click a block to view subsystem details.
+</p>
+</section>
+
+<!-- ENGINEERING DASHBOARD -->
+<section>
+<h2 class="text-2xl font-semibold text-cyan-300 mb-8">
+Engineering Dashboard
+</h2>
+
+<div class="grid md:grid-cols-2 gap-12">
+
+<!-- LEFT PANEL -->
+<div>
+
+<h3 class="text-lg mb-4 text-cyan-400">Channel Selector</h3>
+
+<div class="flex flex-wrap gap-3 mb-6">
+<button class="channel-btn bg-slate-700 px-4 py-2 rounded hover:bg-cyan-600">ECG</button>
+<button class="channel-btn bg-slate-700 px-4 py-2 rounded hover:bg-cyan-600">RESP</button>
+<button class="channel-btn bg-slate-700 px-4 py-2 rounded hover:bg-cyan-600">EMG</button>
+<button class="channel-btn bg-slate-700 px-4 py-2 rounded hover:bg-cyan-600">GSR</button>
+<button class="channel-btn bg-slate-700 px-4 py-2 rounded hover:bg-cyan-600">ACCEL</button>
+</div>
+
+<canvas id="waveCanvas" class="w-full h-64 bg-black"></canvas>
+
+<div class="mt-6 space-y-3 text-sm text-slate-400">
+<div>ADC Value: <span id="adcValue" class="text-cyan-400">0</span></div>
+<div>Clamp Active: <span id="clampStatus" class="text-green-400">NO</span></div>
+<div>Hard Alert Interrupt: <span id="alertStatus" class="text-green-400">INACTIVE</span></div>
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div>
+
+<h3 class="text-lg mb-4 text-cyan-400">Valence–Arousal Projection</h3>
+
+<canvas id="stateCanvas" class="w-full h-64 bg-black"></canvas>
+
+<p class="mt-4 text-slate-400 text-sm">
+Real-time state projection derived from multi-channel signal envelopes.
+</p>
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+<script>
+window.onload = function() {
+
+const waveCanvas = document.getElementById("waveCanvas");
+const waveCtx = waveCanvas.getContext("2d");
+
+const stateCanvas = document.getElementById("stateCanvas");
+const stateCtx = stateCanvas.getContext("2d");
+
+function resize() {
+    waveCanvas.width = waveCanvas.clientWidth;
+    waveCanvas.height = 250;
+    stateCanvas.width = stateCanvas.clientWidth;
+    stateCanvas.height = 250;
+}
+resize();
+window.addEventListener("resize", resize);
+
+let currentChannel = "ECG";
+let t = 0;
+
+document.querySelectorAll(".channel-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        currentChannel = this.innerText;
+    });
+});
+
+function generateSignal(x) {
+    if (currentChannel === "ECG") return Math.sin((x+t)*0.05)*20;
+    if (currentChannel === "RESP") return Math.sin((x+t)*0.01)*40;
+    if (currentChannel === "EMG") return Math.sin((x+t)*0.3)*(Math.random()*25);
+    if (currentChannel === "GSR") return Math.sin((x+t)*0.005)*60;
+    if (currentChannel === "ACCEL") return Math.sin((x+t)*0.1)*30;
+}
+
+function drawWave() {
+
+    waveCtx.clearRect(0,0,waveCanvas.width,waveCanvas.height);
+    waveCtx.beginPath();
+
+    let lastY = waveCanvas.height/2;
+
+    for(let x=0;x<waveCanvas.width;x++) {
+
+        let y = waveCanvas.height/2 + generateSignal(x);
+
+        if(y < 10) {
+            y = 10;
+            document.getElementById("clampStatus").innerText = "YES";
+            document.getElementById("clampStatus").className = "text-red-400";
+        }
+        else if(y > waveCanvas.height-10) {
+            y = waveCanvas.height-10;
+            document.getElementById("clampStatus").innerText = "YES";
+            document.getElementById("clampStatus").className = "text-red-400";
+        } else {
+            document.getElementById("clampStatus").innerText = "NO";
+            document.getElementById("clampStatus").className = "text-green-400";
+        }
+
+        if(x===0) waveCtx.moveTo(x,y);
+        else waveCtx.lineTo(x,y);
+
+        lastY = y;
+    }
+
+    waveCtx.strokeStyle = "#22d3ee";
+    waveCtx.lineWidth = 2;
+    waveCtx.stroke();
+
+    let adc = Math.floor((lastY / waveCanvas.height) * 1023);
+    document.getElementById("adcValue").innerText = adc;
+
+    if(adc > 900) {
+        document.getElementById("alertStatus").innerText = "ACTIVE";
+        document.getElementById("alertStatus").className = "text-red-400";
+    } else {
+        document.getElementById("alertStatus").innerText = "INACTIVE";
+        document.getElementById("alertStatus").className = "text-green-400";
+    }
+
+    t += 2;
+}
+
+function drawState(adc) {
+
+    stateCtx.clearRect(0,0,stateCanvas.width,stateCanvas.height);
+
+    stateCtx.strokeStyle="#334155";
+    stateCtx.beginPath();
+    stateCtx.moveTo(stateCanvas.width/2,0);
+    stateCtx.lineTo(stateCanvas.width/2,stateCanvas.height);
+    stateCtx.moveTo(0,stateCanvas.height/2);
+    stateCtx.lineTo(stateCanvas.width,stateCanvas.height/2);
+    stateCtx.stroke();
+
+    let valence = (adc/1023 - 0.5) * stateCanvas.width;
+    let arousal = Math.sin(t*0.02) * (stateCanvas.height/3);
+
+    stateCtx.beginPath();
+    stateCtx.arc(
+        stateCanvas.width/2 + valence,
+        stateCanvas.height/2 - arousal,
+        8,0,Math.PI*2
+    );
+    stateCtx.fillStyle="#22d3ee";
+    stateCtx.fill();
+}
+
+function animate() {
+    drawWave();
+    let adc = parseInt(document.getElementById("adcValue").innerText);
+    drawState(adc);
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+};
+
+function describe(part) {
+
+const descriptions = {
+sensor: "Five biosignal acquisition channels (ECG, RESP, EMG, GSR, ACCEL). High impedance front-end.",
+conditioning: "1M protection resistors, bias network, mid-rail reference for safe amplification.",
+amp: "Differential amplification using rail-to-rail op-amps. Gain tailored per channel.",
+filter: "Low-pass filtering for noise suppression and alias protection.",
+clamp: "3.3V clamping stage to protect microcontroller ADC input.",
+adc: "Arduino UNO Q ADC interface with hardware-level interrupt output."
+};
+
+document.getElementById("archDescription").innerText = descriptions[part];
+}
+
+</script>
+
+</body>
+</html>

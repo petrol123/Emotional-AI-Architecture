@@ -1,0 +1,194 @@
+<script>
+const waveCanvas = document.getElementById("waveCanvas");
+const waveCtx = waveCanvas.getContext("2d");
+const stateCanvas = document.getElementById("stateCanvas");
+const stateCtx = stateCanvas.getContext("2d");
+
+waveCanvas.width = waveCanvas.clientWidth;
+stateCanvas.width = stateCanvas.clientWidth;
+
+let t = 0;
+let filteredPrev = 0;
+
+/* Slider references */
+const sliders = {
+heart:heart,
+resp:resp,
+emg:emg,
+gsr:gsr,
+motion:motion,
+arousal:arousal,
+gain:gain,
+filter:filter
+};
+
+let targetValues={};
+
+/* Smooth scenario transitions */
+function animateSlider(slider,target){
+    const step = (target - slider.value) * 0.05;
+    slider.value = Number(slider.value) + step;
+}
+
+function setScenario(mode){
+    if(mode==="rest"){
+        targetValues={heart:70,resp:12,emg:15,gsr:25,motion:5,arousal:10};
+    }
+    if(mode==="stress"){
+        targetValues={heart:100,resp:20,emg:45,gsr:60,motion:10,arousal:65};
+    }
+    if(mode==="exercise"){
+        targetValues={heart:140,resp:24,emg:80,gsr:70,motion:60,arousal:85};
+    }
+}
+
+/* Signal generation */
+function generateRaw(x){
+
+    const A = sliders.arousal.value/100;
+
+    const heartRate = Number(sliders.heart.value)+A*30;
+    const respRate = Number(sliders.resp.value)+A*8;
+
+    const heartFreq = heartRate/60;
+    const respFreq = respRate/60;
+
+    const ecg = Math.sin((x+t)*heartFreq*0.06)*20;
+    const respiration = Math.sin((x+t)*respFreq*0.02)*30;
+    const muscle = (Math.random()-0.5)*(sliders.emg.value+A*40);
+    const skin = Math.sin((x+t)*0.002)*(sliders.gsr.value+A*50);
+    const motion = Math.sin((x+t)*0.2)*(sliders.motion.value+A*60)*0.2;
+
+    return ecg + respiration*0.4 + muscle*0.2 + skin*0.05 + motion*0.1;
+}
+
+function applyFilter(signal){
+    const suppression = sliders.filter.value/100;
+    const alpha = 1 - suppression*0.9;
+    filteredPrev = filteredPrev + alpha*(signal-filteredPrev);
+    return filteredPrev;
+}
+
+/* Animated Legend */
+function drawLegend(){
+
+    const pulse = 0.6 + 0.4*Math.sin(t*0.05);
+
+    waveCtx.save();
+    waveCtx.globalAlpha = 0.9;
+
+    waveCtx.fillStyle="#0f172a";
+    waveCtx.fillRect(20,20,200,90);
+
+    waveCtx.font="13px sans-serif";
+
+    // Raw
+    waveCtx.fillStyle="#475569";
+    waveCtx.beginPath();
+    waveCtx.arc(35,40,5,0,Math.PI*2);
+    waveCtx.fill();
+    waveCtx.fillStyle="#e2e8f0";
+    waveCtx.fillText("Raw Signal",50,44);
+
+    // Amplified
+    waveCtx.fillStyle="#22d3ee88";
+    waveCtx.beginPath();
+    waveCtx.arc(35,65,5,0,Math.PI*2);
+    waveCtx.fill();
+    waveCtx.fillStyle="#e2e8f0";
+    waveCtx.fillText("Amplified",50,69);
+
+    // Filtered (primary)
+    waveCtx.fillStyle=`rgba(34,211,238,${pulse})`;
+    waveCtx.beginPath();
+    waveCtx.arc(35,90,6,0,Math.PI*2);
+    waveCtx.fill();
+    waveCtx.fillStyle="#e2e8f0";
+    waveCtx.fillText("Filtered Output",50,94);
+
+    waveCtx.restore();
+}
+
+function draw(){
+
+    for(let key in targetValues){
+        animateSlider(sliders[key],targetValues[key]);
+    }
+
+    waveCtx.clearRect(0,0,waveCanvas.width,waveCanvas.height);
+
+    let rawArr=[],ampArr=[],filtArr=[];
+    for(let x=0;x<waveCanvas.width;x++){
+        let raw=generateRaw(x);
+        let amp=raw*sliders.gain.value;
+        let filt=applyFilter(amp);
+        rawArr.push(raw);
+        ampArr.push(amp);
+        filtArr.push(filt);
+    }
+
+    function trace(data,color,width){
+        waveCtx.strokeStyle=color;
+        waveCtx.lineWidth=width;
+        waveCtx.beginPath();
+        for(let x=0;x<data.length;x++){
+            let y=waveCanvas.height/2+data[x];
+            if(x===0) waveCtx.moveTo(x,y);
+            else waveCtx.lineTo(x,y);
+        }
+        waveCtx.stroke();
+    }
+
+    trace(rawArr,"#475569",1);
+    trace(ampArr,"#22d3ee55",1.5);
+    trace(filtArr,"#22d3ee",2.5);
+
+    drawLegend();
+
+    let last=filtArr[filtArr.length-1];
+    let clamped=false;
+    if(last>110){last=110;clamped=true;}
+    if(last<-110){last=-110;clamped=true;}
+
+    clampStatus.innerText=clamped?"YES":"NO";
+    clampStatus.style.color=clamped?"#f87171":"#34d399";
+
+    let adc=Math.floor(((last+130)/260)*1023);
+    adcValue.innerText=adc;
+
+    alertStatus.innerText=adc>950?"ACTIVE":"INACTIVE";
+    alertStatus.style.color=adc>950?"#f87171":"#34d399";
+
+    drawState(adc);
+
+    t+=2;
+    requestAnimationFrame(draw);
+}
+
+function drawState(adc){
+    stateCtx.clearRect(0,0,stateCanvas.width,stateCanvas.height);
+
+    stateCtx.strokeStyle="#334155";
+    stateCtx.beginPath();
+    stateCtx.moveTo(stateCanvas.width/2,0);
+    stateCtx.lineTo(stateCanvas.width/2,stateCanvas.height);
+    stateCtx.moveTo(0,stateCanvas.height/2);
+    stateCtx.lineTo(stateCanvas.width,stateCanvas.height/2);
+    stateCtx.stroke();
+
+    let valence=(adc/1023-0.5)*stateCanvas.width;
+    let energy=(sliders.arousal.value/100-0.5)*stateCanvas.height;
+
+    stateCtx.beginPath();
+    stateCtx.arc(stateCanvas.width/2+valence,
+                 stateCanvas.height/2-energy,
+                 9,0,Math.PI*2);
+    stateCtx.fillStyle="#22d3ee";
+    stateCtx.shadowBlur=20;
+    stateCtx.shadowColor="#22d3ee";
+    stateCtx.fill();
+    stateCtx.shadowBlur=0;
+}
+
+draw();
+</script>
