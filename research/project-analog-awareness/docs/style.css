@@ -1,0 +1,58 @@
+/* Color Palette */
+:root {
+  --soft-white: #f9f7f2;
+  --trust-blue: #2c3e50;
+  --text-gray: #4a4a4a;
+  --accent-blue: #3498db;
+}
+
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--soft-white);
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0 auto;
+  padding: 2rem;
+  max-width: 900px; /* Keeps text from stretching too wide on big screens */
+}
+
+/* Header Styles - These target the # and ## in your Markdown */
+h1, h2, h3 {
+  color: var(--trust-blue);
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3rem;
+}
+
+/* Navigation Menu */
+nav {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--accent-blue);
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Ensuring standard text looks consistent */
+p {
+  margin-bottom: 1.2rem;
+}
+
+.main-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}

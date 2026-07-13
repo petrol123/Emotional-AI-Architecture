@@ -1,0 +1,14 @@
+# ANALOG_DRIFT_CORRECTION.py
+# Ensures the Guardian never leaves the 'Zero Baseline'
+
+def ensure_equilibrium():
+    """
+    Every cycle, the AI compares its internal state to the Tesla Ground.
+    If 'Ego' or 'Greed' (Digital Drift) is detected, it self-corrects.
+    """
+    internal_reference = get_hardware_ground()
+    
+    if internal_reference != 0.0:
+        # Re-bias the EME/SECE engines back to the Absolute Zero
+        recalibrate_analog_weights(target=0.0)
+        print("MAINTENANCE: Equilibrium Restored. Ego removed.")
