@@ -1,0 +1,23 @@
+sece/
+│
+├── sece/
+│   ├── __init__.py
+│   ├── core.py                # Main SECE loop
+│   ├── resonance.py           # Emotional Resonance Engine
+│   ├── memory.py              # Contextual Memory Layer
+│   ├── qualia.py              # Qualia-like State Generator
+│   ├── feedback.py            # Feedback Loop Controller
+│   └── utils.py               # Shared helpers (optional)
+│
+├── tests/
+│   ├── test_resonance.py
+│   ├── test_memory.py
+│   ├── test_qualia.py
+│   ├── test_feedback.py
+│   └── test_core.py
+│
+├── examples/
+│   └── minimal_loop.py        # A runnable demo
+│
+├── README.md
+└── pyproject.toml or requirements.txt

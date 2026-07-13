@@ -1,0 +1,47 @@
+import time
+import math
+
+class AdvancedEmotionalEngine:
+    def __init__(self, half_life=60.0):
+        self.state = {}  # Stores unified intensity: {name: intensity}
+        self.last_update = time.time()
+        self.half_life = half_life
+        # Conflict Map: "Key" suppresses "Value"
+        self.conflicts = {"fear": "joy", "anger": "calm", "sadness": "excitement"}
+
+    def _apply_real_time_decay(self):
+        now = time.time()
+        elapsed = now - self.last_update
+        decay_factor = 0.5 ** (elapsed / self.half_life)
+        
+        for name in self.state:
+            self.state[name] *= decay_factor
+        self.last_update = now
+
+    def inject_signal(self, name, intensity):
+        self._apply_real_time_decay()
+        name = name.lower()
+        
+        # 1. Saturation Logic (Analog-style growth)
+        current = self.state.get(name, 0.0)
+        self.state[name] = current + (intensity * (1.0 - current))
+        
+        # 2. Inter-signal Interference
+        if name in self.conflicts:
+            suppressed = self.conflicts[name]
+            if suppressed in self.state:
+                # The stronger the new emotion, the faster the old one dies
+                self.state[suppressed] *= (1.0 - intensity)
+
+    def get_state(self):
+        self._apply_real_time_decay()
+        return {k: round(v, 3) for k, v in self.state.items() if v > 0.01}
+
+# Example Usage
+engine = AdvancedEmotionalEngine(half_life=10.0)
+engine.inject_signal("joy", 0.8)
+print(f"Initial: {engine.get_state()}")
+
+time.sleep(2) # Realistic passage of time
+engine.inject_signal("fear", 0.9) # Fear will now suppress Joy
+print(f"After Fear Interference: {engine.get_state()}")

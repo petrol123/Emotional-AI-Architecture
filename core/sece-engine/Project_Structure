@@ -1,0 +1,23 @@
+sece/
+│
+├── sece/
+│   ├── __init__.py
+│   ├── core.py
+│   ├── resonance.py
+│   ├── memory.py
+│   ├── qualia.py
+│   ├── feedback.py
+│   └── utils.py
+│
+├── tests/
+│   ├── test_resonance.py
+│   ├── test_memory.py
+│   ├── test_qualia.py
+│   ├── test_feedback.py
+│   └── test_core.py
+│
+├── examples/
+│   └── minimal_loop.py
+│
+├── README.md
+└── requirements.txt
