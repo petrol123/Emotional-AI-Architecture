@@ -1,0 +1,2 @@
+This folder contains offline medical knowledge resources for SECE‑MedAssist.
+
