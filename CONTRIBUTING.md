@@ -51,4 +51,4 @@ Use the **Bug Report** issue template on GitHub. A good bug report includes:
 - **Actual behavior:** What actually happened, including full error messages and stack traces
 - **Relevant logs or screenshots:** If applicable
 
-> **Security vulner
+> **Security vulnerabilities**
