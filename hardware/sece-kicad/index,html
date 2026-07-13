@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECE Care | Affective Inference & Bio-Signal Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        /* THEME VARIABLES - Change these to change the whole site! */
+        :root {
+            --medical-blue: #3b82f6; /* Classic Clinical Blue */
+            --medical-glow: rgba(59, 130, 246, 0.3);
+        }
+
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.4s, color 0.4s; }
+        .glass { backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .card { transition: transform 0.3s ease; border: 1px solid rgba(59, 130, 246, 0.1); }
+        .card:hover { transform: translateY(-5px); border-color: var(--medical-blue); }
+        
+        /* Dark Mode styles */
+        .theme-dark { background-color: #0f172a; color: #cbd5e1; }
+        .theme-dark .glass { background: rgba(15, 23, 42, 0.8); }
+        .theme-dark .text-main { color: #ffffff; }
+
+        /* Light Mode styles */
+        .theme-light { background-color: #f8fafc; color: #334155; }
+        .theme-light .glass { background: rgba(255, 255, 255, 0.8); border-bottom: 1px solid #e2e8f0; }
+        .theme-light .text-main { color: #0f172a; }
+        .theme-light .glass-card { background: white; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+
+<body id="mainBody" class="theme-dark antialiased">
+
+    <nav class="fixed w-full z-50 glass py-4 px-8 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">S</div>
+            <div class="text-blue-500 font-bold text-2xl tracking-tighter">SECE<span class="text-slate-400 font-light">CARE</span></div>
+        </div>
+        
+        <div class="flex items-center space-x-8">
+            <div class="hidden md:flex space-x-6 text-xs font-bold uppercase tracking-widest">
+                <a href="#technology" class="hover:text-blue-500 transition">Technology</a>
+                <a href="#architecture" class="hover:text-blue-500 transition">Architecture</a>
+            </div>
+            <button onclick="toggleTheme()" class="px-3 py-1.5 rounded border border-blue-500/50 text-[10px] font-bold uppercase tracking-tighter hover:bg-blue-500 hover:text-white transition">
+                Toggle View Mode
+            </button>
+        </div>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div id="heroGradient" class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
+        
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <h1 class="text-main text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+                Clinical Precision in <br><span class="text-blue-500">Affective Computing</span>
+            </h1>
+            <p class="text-lg opacity-80 max-w-2xl mx-auto mb-10 leading-relaxed">
+                A specialized multi-channel signal architecture designed for researchers requiring high-fidelity real-time emotional state mapping.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="#technology" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-md font-semibold transition shadow-lg shadow-blue-500/20">
+                    Technical Specifications
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 w-full h-32 opacity-40">
+            <canvas id="heroPulse" class="w-full h-full"></canvas>
+        </div>
+    </section>
+
+    <section id="technology" class="py-24 px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="glass-card card p-8 rounded-xl bg-slate-800/40">
+                <h3 class="text-blue-500 font-bold uppercase text-xs tracking-widest mb-2">Acquisition</h3>
+                <h4 class="text-main text-xl font-bold mb-4">Pentad Interface</h4>
+                <p class="text-sm opacity-70 leading-relaxed">High-impedance acquisition of ECG, EMG, and GSR signals optimized for minimal artifact interference.</p>
+            </div>
+            <div class="glass-card card p-8 rounded-xl bg-slate-800/40">
+                <h3 class="text-blue-500 font-bold uppercase text-xs tracking-widest mb-2">Integrity</h3>
+                <h4 class="text-main text-xl font-bold mb-4">Isolation Barriers</h4>
+                <p class="text-sm opacity-70 leading-relaxed">Hardware-level safety with 1MΩ protection and 3.3V clamping stages for medical-grade signal safety.</p>
+            </div>
+            <div class="glass-card card p-8 rounded-xl bg-slate-800/40">
+                <h3 class="text-blue-500 font-bold uppercase text-xs tracking-widest mb-2">Inference</h3>
+                <h4 class="text-main text-xl font-bold mb-4">State Mapping</h4>
+                <p class="text-sm opacity-70 leading-relaxed">Advanced algorithms translating complex bio-signals into reliable Valence-Arousal projections.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-blue-500/10 text-center">
+        <p class="text-xs uppercase tracking-widest opacity-50">© 2026 SECE CARE Systems | Mansfield, Connecticut</p>
+    </footer>
+
+    <script>
+        // THEME TOGGLE LOGIC
+        function toggleTheme() {
+            const body = document.getElementById('mainBody');
+            if (body.classList.contains('theme-dark')) {
+                body.classList.replace('theme-dark', 'theme-light');
+            } else {
+                body.classList.replace('theme-light', 'theme-dark');
+            }
+        }
+
+        // PULSE ANIMATION
+        const canvas = document.getElementById('heroPulse');
+        const ctx = canvas.getContext('2d');
+        let t = 0;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = 128;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.strokeStyle = '#3b82f6'; // Match Clinical Blue
+            ctx.lineWidth = 1.5;
+            
+            for(let x = 0; x < canvas.width; x++) {
+                const y = 64 + Math.sin(x * 0.02 + t) * 15 + Math.sin(x * 0.01 + t) * 10;
+                if(x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            t += 0.03;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

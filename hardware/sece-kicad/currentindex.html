@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWE Research Dashboard - Paul Totoritis</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0f0f0f; color: #e0e0e0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { background: #1e1e1e; padding: 25px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); width: 450px; border: 1px solid #333; margin-bottom: 20px; }
+        h2 { color: #00d4ff; text-align: center; margin-top: 0; }
+        .control-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #888; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: #00d4ff; }
+        canvas { width: 100%; height: 100px; background: #000; border-radius: 8px; margin-top: 15px; border: 1px solid #444; }
+        .display-area { text-align: center; margin-top: 15px; padding: 15px; border-radius: 8px; background: #111; border: 2px solid transparent; }
+        #resonance-score { font-size: 2.5rem; font-weight: bold; color: #00ff88; }
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; min-width: 100px; }
+        .btn-log { background: #00d4ff; color: #000; }
+        .btn-download { background: #444; color: #fff; }
+        .btn-reset { background: #ff4c4c; color: #fff; }
+        button:hover { opacity: 0.8; }
+        .log-container { width: 500px; background: #1e1e1e; padding: 15px; border-radius: 15px; border: 1px solid #333; max-height: 300px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; }
+        th { color: #00d4ff; border-bottom: 1px solid #444; padding: 8px; position: sticky; top: 0; background: #1e1e1e; }
+        td { padding: 8px; border-bottom: 1px solid #222; font-family: monospace; }
+        #status-alert { margin-top: 10px; font-weight: bold; font-size: 0.8rem; color: #ff4c4c; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>EWE Resonance Simulator</h2>
+    
+    <div class="control-group">
+        <label>Intensity (Amplitude): <span id="val-i">50</span>%</label>
+        <input type="range" id="slider-i" min="1" max="100" value="50">
+    </div>
+
+    <div class="control-group">
+        <label>Clarity (Noise Reduction): <span id="val-c">50</span>%</label>
+        <input type="range" id="slider-c" min="1" max="100" value="50">
+    </div>
+
+    <div class="control-group">
+        <label>Relevance (Frequency): <span id="val-r">50</span>%</label>
+        <input type="range" id="slider-r" min="1" max="100" value="50">
+    </div>
+
+    <canvas id="waveCanvas"></canvas>
+
+    <div class="display-area" id="visual-box">
+        <div style="font-size: 0.7rem; color: #666; letter-spacing: 1px;">EME RESONANCE METRIC</div>
+        <div id="resonance-score">0.1250</div>
+        <div id="status-alert">PRIORITY CARE TRIGGERED</div>
+    </div>
+
+    <div class="btn-row">
+        <button class="btn-log" onclick="logResonance()">CAPTURE DATA</button>
+        <button class="btn-download" onclick="downloadCSV()">EXPORT CSV</button>
+        <button class="btn-reset" onclick="clearLog()">RESET LOG</button>
+    </div>
+</div>
+
+<div class="log-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>I%</th>
+                <th>C%</th>
+                <th>R%</th>
+                <th>Resonance</th>
+            </tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+    </table>
+</div>
+
+<script>
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+    let logData = []; // Changed to 'let' so we can clear it
+    let offset = 0;
+
+    function update() {
+        const i = document.getElementById('slider-i').value / 100;
+        const c = document.getElementById('slider-c').value / 100;
+        const r = document.getElementById('slider-r').value / 100;
+
+        document.getElementById('val-i').innerText = Math.round(i * 100);
+        document.getElementById('val-c').innerText = Math.round(c * 100);
+        document.getElementById('val-r').innerText = Math.round(r * 100);
+
+        // FORMULA: I * C * R^2
+        const res = (i * c * Math.pow(r, 2)).toFixed(4);
+        const scoreEl = document.getElementById('resonance-score');
+        const alertEl = document.getElementById('status-alert');
+        const boxEl = document.getElementById('visual-box');
+        
+        scoreEl.innerText = res;
+
+        if (r > 0.85) {
+            alertEl.style.display = 'block';
+            boxEl.style.borderColor = '#ff4c4c';
+        } else {
+            alertEl.style.display = 'none';
+            boxEl.style.borderColor = 'transparent';
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = `hsl(${140 + (res * 120)}, 100%, 50%)`;
+
+        for (let x = 0; x < canvas.width; x++) {
+            const amplitude = i * 35;
+            const frequency = 0.01 + (r * 0.1);
+            const noise = (1 - c) * 12 * (Math.random() - 0.5);
+            const y = (canvas.height / 2) + Math.sin(x * frequency + offset) * amplitude + noise;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        offset += 0.05 + (r * 0.1);
+        requestAnimationFrame(update);
+    }
+
+    function logResonance() {
+        const i = document.getElementById('slider-i').value;
+        const c = document.getElementById('slider-c').value;
+        const r = document.getElementById('slider-r').value;
+        const res = document.getElementById('resonance-score').innerText;
+        const time = new Date().toLocaleTimeString();
+
+        logData.push({ time, i, c, r, res });
+
+        const row = `<tr><td>${time}</td><td>${i}</td><td>${c}</td><td>${r}</td><td>${res}</td></tr>`;
+        document.getElementById('log-body').insertAdjacentHTML('afterbegin', row);
+    }
+
+    function clearLog() {
+        if(confirm("Are you sure you want to clear all captured data?")) {
+            logData = []; // Clear the array
+            document.getElementById('log-body').innerHTML = ""; // Clear the table
+        }
+    }
+
+    function downloadCSV() {
+        if (logData.length === 0) {
+            alert("No data to export!");
+            return;
+        }
+        let csvContent = "data:text/csv;charset=utf-8,Time,Intensity,Clarity,Relevance,Resonance\n";
+        logData.forEach(row => {
+            csvContent += `${row.time},${row.i},${row.c},${row.r},${row.res}\n`;
+        });
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "EWE_Resonance_Log.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    update();
+</script>
+
+</body>
+</html>
